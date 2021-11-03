@@ -116,7 +116,7 @@ int exec_child(char **cmd, char **env, char **tmp, int in, int pipefd[2])
         fatal_error(cmd);
     if (next_pipe(cmd) && dup2(pipefd[1], 1) < 0)
         fatal_error(cmd);
-    close(in);
+    // close(in);
     close(pipefd[0]);
     close(pipefd[1]);
     tmp[cmd_size(cmd, "|")] = NULL;

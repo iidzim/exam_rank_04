@@ -1,23 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   microshell.h                                       :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iidzim <iidzim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/17 14:58:21 by iidzim            #+#    #+#             */
-/*   Updated: 2021/09/17 15:38:27 by iidzim           ###   ########.fr       */
+/*   Created: 2021/09/17 15:31:32 by iidzim            #+#    #+#             */
+/*   Updated: 2021/10/25 16:02:03 by iidzim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MICROSHELL_H
-# define MICROSHELL_H
+#include "microshell.h"
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <string.h>
+int ft_strlen(char *str)
+{
+	int i;
 
-int ft_strlen(char *str);
-int cd_builtin(char **argv);
+	i = 0;
+	while (str[i] != '\0')
+		i++;
+	return (i);
+}
 
-#endif
+void print_error(int i, char *path)
+{
+	if (i == 0)
+		write(2, "error: fatal\n", 13);
+	if (i == 1)
+	{
+		write(2, "error: cannot execute ", 22);
+		write(2, *path, ft_strlen(path));
+		write(2, "\n", 1);
+	}
+	exit(EXIT_FAILURE);
+}
+
+

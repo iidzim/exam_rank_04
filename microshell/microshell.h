@@ -1,19 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   microshell.c                                       :+:      :+:    :+:   */
+/*   microshell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iidzim <iidzim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/17 14:57:42 by iidzim            #+#    #+#             */
-/*   Updated: 2021/09/17 15:17:17 by iidzim           ###   ########.fr       */
+/*   Created: 2021/09/17 14:58:21 by iidzim            #+#    #+#             */
+/*   Updated: 2021/10/25 16:24:30 by iidzim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "microshell.h"
+#ifndef MICROSHELL_H
+# define MICROSHELL_H
 
-int main(int argc, char **argv, char **env)
-{
-    
-    return (0);
-}
+# include <unistd.h>
+# include <stdlib.h>
+# include <string.h>
+
+typedef struct s_cmd{
+	char	**tokens;
+	int		pipe[2];
+	
+	struct s_cmd *next;
+}               t_cmd;
+
+int ft_strlen(char *str);
+void print_error(int i, char *path)
+int cd_builtin(char **argv);
+
+#endif
