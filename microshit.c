@@ -158,7 +158,7 @@ int exec(char **cmd, char **env)
 				close(in);
 			if(pipefd[1] != 1)
 				close(pipefd[1]);
-			tmp = next_pipe(tmp);//?free leaks
+			tmp = next_pipe(tmp);
             in = pipefd[0];
 		}
 	}
@@ -185,5 +185,6 @@ int main (int argc, char **argv, char **env)
 		cmd = NULL;
 		i++;
 	}
+	system("leaks a.out");
 	return (0);
 }
