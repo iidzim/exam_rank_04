@@ -44,6 +44,8 @@ char **parse(char **argv, int *i)
 	int k;
 
 	size = cmd_size(&argv[*i], ";");
+	if (size == 0)
+		return (NULL);
 	cmd = (char **)malloc(sizeof(char *) * (size + 1));
 	if (!cmd)
 		error_fatal(cmd);
@@ -112,18 +114,17 @@ int child_process(char **cmd, char **tmp, int pipefd[2], int in, char **env)
 {
 	int out;
 
-	if (dup2(in, 0) < 0)
-		error_fatal(cmd);
 	if (!next_pipe(tmp))
         out = 1;
 	else
         out = pipefd[1];
+	if (dup2(in, 0) < 0 || dup2(out, 1) < 0)
+		error_fatal(cmd);
+
     if (pipefd[0] != 0)
 		close(pipefd[0]);
 	if (in != 0)
 		close(in);
-	if (dup2(out, 1) < 0)
-		error_fatal(cmd);
     if (out != 1)
 		close(out);
 	tmp[cmd_size(tmp, "|")] = NULL;
@@ -162,7 +163,9 @@ int exec(char **cmd, char **env)
             in = pipefd[0];
 		}
 	}
-	waitpid(-1, NULL, 0);
+	int status;
+	while(waitpid(-1, &status, 0) > 0)
+		;
 	return (0);
 }
 
@@ -185,6 +188,6 @@ int main (int argc, char **argv, char **env)
 		cmd = NULL;
 		i++;
 	}
-	system("leaks a.out");
+	// system("leaks a.out");
 	return (0);
 }
